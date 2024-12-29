@@ -23,36 +23,33 @@ public class ProblemTwo {
         return fileInput;
     }
 
-    static String[] parseInput(String fileInput) {
+    static int[][] parseInput(String fileInput) {
         String[] fileLines = fileInput.split("\n");
-        String[] reportNumbers = new String[fileLines.length];
+        int[][] reportNumbers = new int[fileLines.length][10];
 
         for (int i = 0; i < fileLines.length; i++) {
             String[] line = fileLines[i].split(" ");
 
             for (int j = 0; j < line.length; j++) {
-                if (reportNumbers[i] == null) {
-                    reportNumbers[i] = line[j];
-                }
-                else {
-                    reportNumbers[i] = reportNumbers[i].concat(line[j]);
-                }
+                reportNumbers[i][j] = Integer.parseInt(line[j]);
             }
         }
 
         return reportNumbers;
     }
 
-    static void solvePartOne(String[] reportNumbers) {
+    static void solvePartOne(String fileInput) {
+        String[] fileLines = fileInput.split("\n");
         int safeReports = 0;
 
-        for (int i = 0; i < reportNumbers.length; i++) {
+        for (int i = 0; i < fileLines.length; i++) {
+            String reportNumbers[] = fileLines[i].split(" ");
             boolean isSafe = false;
             int changeAmount = 0;
             String direction = "increasing";
 
-            int checkOne = Character.getNumericValue(reportNumbers[i].charAt(0));
-            int checkTwo = Character.getNumericValue(reportNumbers[i].charAt(1));
+            int checkOne = Integer.parseInt(reportNumbers[0]);
+            int checkTwo = Integer.parseInt(reportNumbers[1]);
 
             if (checkOne - checkTwo > 0) {
                 direction = "decreasing";
@@ -65,9 +62,9 @@ public class ProblemTwo {
                 continue;
             }
 
-            for (int j = 0; j < reportNumbers[i].length() - 1; j++) {
-                int numOne = Character.getNumericValue(reportNumbers[i].charAt(j));
-                int numTwo = Character.getNumericValue(reportNumbers[i].charAt(j + 1));
+            for (int j = 0; j < reportNumbers.length - 1; j++) {
+                int numOne = Integer.parseInt(reportNumbers[j]);
+                int numTwo = Integer.parseInt(reportNumbers[j + 1]);
 
                 if (direction == "increasing") {
                     changeAmount = numTwo - numOne;
@@ -100,22 +97,18 @@ public class ProblemTwo {
                     }
                 }
             }
-            
+
             if (isSafe) {
                 safeReports++;
-                System.out.println("Is safe: " + reportNumbers[i]);
             }
         }
 
         System.out.println("The number of safe reports is: " + safeReports);
+        // Answer should be: 421 Safe reports
     }
 
     public static void main(String[] args) {
-        String fileInput = readInFile("Inputs/test.txt");
-        String[] reportNumbers = parseInput(fileInput);
-        
-        // Error in parseInput, does not work for double digit numbers, need to fix
-        
-        solvePartOne(reportNumbers);
+        String fileInput = readInFile("Inputs/ProblemTwo.txt");
+        solvePartOne(fileInput);
     }
 }
