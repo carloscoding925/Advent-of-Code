@@ -36,6 +36,7 @@ public class DayTwo {
                     int idLength = idString.length();
 
                     if (idLength == 1 || (idLength % 2 != 0)) {
+                        left++;
                         continue;
                     }
 
