@@ -110,11 +110,13 @@ public class DayTwo {
                     if (hasSequence) {
                         sum = sum + left;
                     }
+
+                    left++;
                 }
             }
 
             System.out.println("Part 2 Total Sum: " + sum);
-            // Should be
+            // Should be 85513235135
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
