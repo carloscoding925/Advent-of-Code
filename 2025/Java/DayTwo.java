@@ -28,8 +28,8 @@ public class DayTwo {
             long sum = 0;
             for (String range : allRanges) {
                 String[] ids = range.split("-");
-                int left = Integer.parseInt(ids[0]);
-                int right = Integer.parseInt(ids[1]);
+                long left = Long.parseLong(ids[0]);
+                long right = Long.parseLong(ids[1]);
 
                 while (left <= right) {
                     String idString = String.valueOf(left);
