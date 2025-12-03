@@ -43,10 +43,16 @@ public class DayThree {
     private static void solvePartTwo() {
         try {
             Scanner scanner = new Scanner(new File("../Inputs/DayThree.txt"));
-            int maxJoltage = 0;
+            long maxJoltage = 0;
 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
+
+                StringBuilder builder = new StringBuilder();
+                int linePosition = 0;
+                int joltageLength = 12;
+
+
             }
 
             System.out.println("Part 2 Max Joltage: " + maxJoltage);
