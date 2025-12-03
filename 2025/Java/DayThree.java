@@ -18,13 +18,20 @@ public class DayThree {
                 int largest = 0;
 
                 for (int i = 0; i < line.length() - 1; i++) {
-                    for (int j = 0; j < line.length(); j++) {
-                        
+                    int tens = Character.getNumericValue(line.charAt(i));
+
+                    for (int j = i + 1; j < line.length(); j++) {
+                        int ones = Character.getNumericValue(line.charAt(j));
+                        int val = (tens * 10) + ones;
+                        largest = Math.max(largest, val);
                     }
                 }
+
+                maxJoltage = maxJoltage + largest;
             }
 
-            System.out.println("Max Joltage: " + maxJoltage);
+            System.out.println("Part 1 Max Joltage: " + maxJoltage);
+            // Should be 17524
 
             scanner.close();
         } catch (Exception ex) {
