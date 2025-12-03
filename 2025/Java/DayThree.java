@@ -82,7 +82,7 @@ public class DayThree {
             }
 
             System.out.println("Part 2 Max Joltage: " + maxJoltage);
-            // Should be
+            // Should be 173848577117276
 
             scanner.close();
         } catch (Exception ex) {
