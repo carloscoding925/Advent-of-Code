@@ -52,7 +52,33 @@ public class DayThree {
                 int linePosition = 0;
                 int joltageLength = 12;
 
+                for (int pos = 0; pos < joltageLength; pos++) {
+                    int remaining = joltageLength - pos;
 
+                    int maxDigit = -1; // Digits are in range [0-9] and position [0-line.length()] so use -1 as a placeholder
+                    int maxPos = -1;
+
+                    /*
+                        Each line is larger than 12 values so each position in our joltage has a range from line[i] to line[n]
+                        it can be in, in this for loop we check the range [i, n] and grab the largest available integer
+                     */
+                    for (int i = linePosition; i <= line.length() - remaining; i++) {
+                        int digit = Character.getNumericValue(line.charAt(i));
+                        if (digit > maxDigit) {
+                            maxDigit = digit;
+                            maxPos = i;
+                        }
+                    }
+
+                    // Realistically it should never be -1 but just in case
+                    if (maxDigit != -1) {
+                        builder.append(maxDigit);
+                        linePosition = maxPos + 1;
+                    }
+                }
+
+                long val = Long.parseLong(builder.toString()); // Longs so we dont blow up
+                maxJoltage = maxJoltage + val;
             }
 
             System.out.println("Part 2 Max Joltage: " + maxJoltage);
