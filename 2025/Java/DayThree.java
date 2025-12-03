@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class DayThree {
     public static void main(String[] args) {
         solvePartOne();
+        solvePartTwo();
 
         return;
     }
@@ -32,6 +33,24 @@ public class DayThree {
 
             System.out.println("Part 1 Max Joltage: " + maxJoltage);
             // Should be 17524
+
+            scanner.close();
+        } catch (Exception ex) {
+            System.out.println("Caught Exception: " + ex);
+        }
+    }
+
+    private static void solvePartTwo() {
+        try {
+            Scanner scanner = new Scanner(new File("../Inputs/DayThree.txt"));
+            int maxJoltage = 0;
+
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+            }
+
+            System.out.println("Part 2 Max Joltage: " + maxJoltage);
+            // Should be
 
             scanner.close();
         } catch (Exception ex) {
