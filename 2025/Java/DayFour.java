@@ -101,9 +101,19 @@ public class DayFour {
 
                 for (int row = 0; row < rollGrid.length; row++) {
                     for (int col = 0; col < rollGrid[row].length; col++) {
-                        
+                        if (rollGrid[row][col] == '@') {
+                            int count = countNeighboringRolls(rollGrid, row, col);
+
+                            if (count <= 3) {
+                                copy[row][col] = '.';
+                                reachable++;
+                                removed = true;
+                            }
+                        }
                     }
                 }
+
+                rollGrid = copy;
             }
 
             System.out.println("Part 2 Count: " + reachable);
