@@ -91,57 +91,17 @@ public class DayFour {
             int reachable = 0;
             boolean removed = true;
 
-            for (int row = 0; row < lines.size(); row++) {
-                for (int col = 0; col < lines.get(row).length(); col++) {
-                    if (lines.get(row).charAt(col) == '@') {
-                        int rollCount = 0;
+            while (removed) {
+                removed = false;
+                char[][] copy = new char[rollGrid.length][];
 
-                        // TOP
-                        if (row - 1 >= 0 && lines.get(row - 1).charAt(col) == '@') {
-                            rollCount++;
-                        }
+                for (int i = 0; i < rollGrid.length; i++) {
+                    copy[i] = rollGrid[i].clone();
+                }
 
-                        // BOTTOM
-                        if (row + 1 < lines.size() && lines.get(row + 1).charAt(col) == '@') {
-                            rollCount++;
-                        }
-
-                        // LEFT
-                        if (col - 1 >= 0 && lines.get(row).charAt(col - 1) == '@') {
-                            rollCount++;
-                        }
-
-                        // RIGHT
-                        if (col + 1 < lines.get(row).length() && lines.get(row).charAt(col + 1) == '@') {
-                            rollCount++;
-                        }
-
-                        // TOP LEFT
-                        if (row - 1 >= 0 && col - 1 >= 0 && lines.get(row - 1).charAt(col - 1) == '@') {
-                            rollCount++;
-                        }
-
-                        // TOP RIGHT
-                        if (row - 1 >= 0 && col + 1 < lines.get(row - 1).length() &&
-                            lines.get(row - 1).charAt(col + 1) == '@') {
-                            rollCount++;
-                        }
-
-                        // BOTTOM LEFT
-                        if (row + 1 < lines.size() && col - 1 >= 0 &&
-                            lines.get(row + 1).charAt(col - 1) == '@') {
-                            rollCount++;
-                        }
-
-                        // BOTTOM RIGHT
-                        if (row + 1 < lines.size() && col + 1 < lines.get(row + 1).length() &&
-                            lines.get(row + 1).charAt(col + 1) == '@') {
-                            rollCount++;
-                        }
-
-                        if (rollCount <= 3) {
-                            reachable++;
-                        }
+                for (int row = 0; row < rollGrid.length; row++) {
+                    for (int col = 0; col < rollGrid[row].length; col++) {
+                        
                     }
                 }
             }
