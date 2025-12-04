@@ -1,6 +1,5 @@
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DayFour {
@@ -88,7 +87,9 @@ public class DayFour {
                 rollGrid[i] = lines.get(i).toCharArray();
             }
 
+            // Keep track of all rolls removed + if we managed to remove any
             int reachable = 0;
+            boolean removed = true;
 
             for (int row = 0; row < lines.size(); row++) {
                 for (int col = 0; col < lines.get(row).length(); col++) {
@@ -150,5 +151,52 @@ public class DayFour {
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
+    }
+
+    // same as part 1, modified to use in a char grid
+    private static int countNeighboringRolls(char[][] grid, int row, int col) {
+        int count = 0;
+
+        // TOP
+        if (row - 1 >= 0 && grid[row - 1][col] == '@') {
+            count++;
+        }
+
+        // BOTTOM
+        if (row + 1 < grid.length && grid[row + 1][col] == '@') {
+            count++;
+        }
+
+        // LEFT
+        if (col - 1 >= 0 && grid[row][col - 1] == '@') {
+            count++;
+        }
+
+        // RIGHT
+        if (col + 1 < grid[row].length && grid[row][col + 1] == '@') {
+            count++;
+        }
+
+        // TOP LEFT
+        if (row - 1 >= 0 && col - 1 >= 0 && grid[row - 1][col - 1] == '@') {
+            count++;
+        }
+
+        // TOP RIGHT
+        if (row - 1 >= 0 && col + 1 < grid[row - 1].length && grid[row - 1][col + 1] == '@') {
+            count++;
+        }
+
+        // BOTTOM LEFT
+        if (row + 1 < grid.length && col - 1 >= 0 && grid[row + 1][col - 1] == '@') {
+            count++;
+        }
+
+        // BOTTOM RIGHT
+        if (row + 1 < grid.length && col + 1 < grid[row + 1].length && grid[row + 1][col + 1] == '@') {
+            count++;
+        }
+
+        return count;
     }
 }
