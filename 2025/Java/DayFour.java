@@ -81,8 +81,13 @@ public class DayFour {
     private static void solvePartTwo() {
         try {
             List<String> lines = Files.readAllLines(Paths.get("../Inputs/DayFour.txt"));
-            List<String> copy = new ArrayList<>(lines);
             
+            // Converting to char 2D array for easier manipulation
+            char[][] rollGrid = new char[lines.size()][];
+            for (int i = 0; i < lines.size(); i++) {
+                rollGrid[i] = lines.get(i).toCharArray();
+            }
+
             int reachable = 0;
 
             for (int row = 0; row < lines.size(); row++) {
