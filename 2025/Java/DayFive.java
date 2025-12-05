@@ -66,6 +66,22 @@ public class DayFive {
     }
 
     private static void solvePartTwo() {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get("../Inputs/DayFive.txt"));
+            long totalIds = 0;
 
+            for (String line : lines) {
+                if (line.isBlank()) {
+                    break;
+                }
+
+                
+            }
+
+            System.out.println("Part 2 Count: " + totalIds);
+            // Should be: 
+        } catch (Exception ex) {
+            System.out.println("Caught Exception: " + ex);
+        }
     }
 }
