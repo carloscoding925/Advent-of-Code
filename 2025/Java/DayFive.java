@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DayFive {
-    public static void main() {
+    public static void main(String[] args) {
         solvePartOne();
         solvePartTwo();
 
@@ -34,7 +34,32 @@ public class DayFive {
                 }
             }
 
-            System.out.println(ranges.toString() + " " + ids.toString());
+            int freshIngredients = 0;
+
+            for (int id : ids) {
+                boolean isFresh = false;
+
+                for (String range : ranges) {
+                    String[] parts = range.split("-");
+                    int low = Integer.parseInt(parts[0]);
+                    int high = Integer.parseInt(parts[1]);
+
+                    if (isFresh) {
+                        continue;
+                    }
+
+                    if (id <= high && id >= low) {
+                        isFresh = true;
+                    }
+                }
+
+                if (isFresh) {
+                    freshIngredients++;
+                }
+            }
+
+            System.out.println("Part 1 Count: " + freshIngredients);
+            // Should be: 
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
