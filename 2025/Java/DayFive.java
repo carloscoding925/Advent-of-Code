@@ -1,7 +1,9 @@
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class DayFive {
     public static void main(String[] args) {
@@ -68,6 +70,7 @@ public class DayFive {
     private static void solvePartTwo() {
         try {
             List<String> lines = Files.readAllLines(Paths.get("../Inputs/DayFive.txt"));
+            Set<Long> idSet = new HashSet<>();
             long totalIds = 0;
 
             for (String line : lines) {
@@ -75,7 +78,16 @@ public class DayFive {
                     break;
                 }
 
-                
+                String[] parts = line.split("-");
+                long low = Long.parseLong(parts[0]);
+                long high = Long.parseLong(parts[1]);
+
+                for (long i = low; i <= high; i++) {
+                    if (!idSet.contains(i)) {
+                        idSet.add(i);
+                        totalIds++;
+                    } 
+                }
             }
 
             System.out.println("Part 2 Count: " + totalIds);
