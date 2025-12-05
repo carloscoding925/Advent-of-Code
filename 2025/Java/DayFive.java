@@ -16,7 +16,7 @@ public class DayFive {
             List<String> lines = Files.readAllLines(Paths.get("../Inputs/DayFive.txt"));
 
             List<String> ranges = new ArrayList<>();
-            List<Integer> ids = new ArrayList<>();
+            List<Long> ids = new ArrayList<>();
 
             boolean hitDelimiter = false;
 
@@ -30,19 +30,19 @@ public class DayFive {
                     ranges.add(line);
                 }
                 else {
-                    ids.add(Integer.parseInt(line));
+                    ids.add(Long.parseLong(line));
                 }
             }
 
             int freshIngredients = 0;
 
-            for (int id : ids) {
+            for (long id : ids) {
                 boolean isFresh = false;
 
                 for (String range : ranges) {
                     String[] parts = range.split("-");
-                    int low = Integer.parseInt(parts[0]);
-                    int high = Integer.parseInt(parts[1]);
+                    long low = Long.parseLong(parts[0]);
+                    long high = Long.parseLong(parts[1]);
 
                     if (isFresh) {
                         continue;
@@ -59,7 +59,7 @@ public class DayFive {
             }
 
             System.out.println("Part 1 Count: " + freshIngredients);
-            // Should be: 
+            // Should be: 635
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
