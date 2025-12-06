@@ -101,8 +101,10 @@ public class DayFive {
                 }
             }
 
+            totalIds = totalIds + (currEnd - currStart + 1);
+
             System.out.println("Part 2 Count: " + totalIds);
-            // Should be: 363407946183085
+            // Should be: 369761800782619
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
