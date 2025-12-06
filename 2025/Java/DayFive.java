@@ -1,9 +1,7 @@
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DayFive {
     public static void main(String[] args) {
@@ -84,27 +82,27 @@ public class DayFive {
             }
 
             ranges.sort((a, b) -> Long.compare(a[0], b[0]));
+
             long totalIds = 0;
+            long currStart = ranges.get(0)[0];
+            long currEnd = ranges.get(0)[1];
 
-            /*for (String line : lines) {
-                if (line.isBlank()) {
-                    break;
+            for (int i = 1; i < ranges.size(); i++) {
+                long nextStart = ranges.get(i)[0];
+                long nextEnd = ranges.get(i)[1];
+
+                if (nextStart <= currEnd + 1) {
+                    currEnd = Math.max(currEnd, nextEnd);
                 }
-
-                String[] parts = line.split("-");
-                long low = Long.parseLong(parts[0]);
-                long high = Long.parseLong(parts[1]);
-
-                for (long i = low; i <= high; i++) {
-                    if (!idSet.contains(i)) {
-                        idSet.add(i);
-                        totalIds++;
-                    } 
+                else {
+                    totalIds = totalIds + (currEnd - currStart + 1);
+                    currStart = nextStart;
+                    currEnd = nextEnd;
                 }
-            }*/
+            }
 
             System.out.println("Part 2 Count: " + totalIds);
-            // Should be: 
+            // Should be: 363407946183085
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
