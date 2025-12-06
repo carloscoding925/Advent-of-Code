@@ -70,10 +70,23 @@ public class DayFive {
     private static void solvePartTwo() {
         try {
             List<String> lines = Files.readAllLines(Paths.get("../Inputs/DayFive.txt"));
-            Set<Long> idSet = new HashSet<>();
+            
+            List<long[]> ranges = new ArrayList<>();
+            for (String line : lines) {
+                if (line.isBlank()) {
+                    break;
+                }
+
+                String[] parts = line.split("-");
+                long start = Long.parseLong(parts[0]);
+                long end = Long.parseLong(parts[1]);
+                ranges.add(new long[]{start, end});
+            }
+
+            ranges.sort((a, b) -> Long.compare(a[0], b[0]));
             long totalIds = 0;
 
-            for (String line : lines) {
+            /*for (String line : lines) {
                 if (line.isBlank()) {
                     break;
                 }
@@ -88,7 +101,7 @@ public class DayFive {
                         totalIds++;
                     } 
                 }
-            }
+            }*/
 
             System.out.println("Part 2 Count: " + totalIds);
             // Should be: 
