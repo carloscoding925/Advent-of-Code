@@ -26,22 +26,22 @@ public class DaySix {
 
             String operationString = lines.getLast();
             String[] operations = operationString.trim().split("\\s+");
-            int total = 0;
+            long total = 0;
 
             for (int j = 0; j < operations.length; j++) {
-                int result = 0;
+                long result = 0;
 
                 if (operations[j].equals("*")) {
                     result = Integer.parseInt(nums.get(0)[j]);
 
-                    for (int k = 1; k < numsSize - 1; k++) {
+                    for (int k = 1; k < numsSize; k++) {
                         result = result * Integer.parseInt(nums.get(k)[j]);
                     }
                 }
                 else {
                     result = Integer.parseInt(nums.get(0)[j]);
 
-                    for (int k = 1; k < numsSize - 1; k++) {
+                    for (int k = 1; k < numsSize; k++) {
                         result = result + Integer.parseInt(nums.get(k)[j]);
                     }
                 }
@@ -50,7 +50,7 @@ public class DaySix {
             }
 
             System.out.println("Part 1 Total: " + total);
-            // Should be: 
+            // Should be: 5361735137219
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
