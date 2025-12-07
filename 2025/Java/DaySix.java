@@ -22,14 +22,35 @@ public class DaySix {
                 String[] lineValues = lines.get(i).trim().split("\\s+");
                 nums.add(lineValues);
             }
+            int numsSize = nums.size();
 
             String operationString = lines.getLast();
             String[] operations = operationString.trim().split("\\s+");
+            int total = 0;
 
-            for (int i = 0; i < nums.size(); i++) {
-                System.out.println(Arrays.toString(nums.get(i)));
+            for (int j = 0; j < operations.length; j++) {
+                int result = 0;
+
+                if (operations[j].equals("*")) {
+                    result = Integer.parseInt(nums.get(0)[j]);
+
+                    for (int k = 1; k < numsSize - 1; k++) {
+                        result = result * Integer.parseInt(nums.get(k)[j]);
+                    }
+                }
+                else {
+                    result = Integer.parseInt(nums.get(0)[j]);
+
+                    for (int k = 1; k < numsSize - 1; k++) {
+                        result = result + Integer.parseInt(nums.get(k)[j]);
+                    }
+                }
+
+                total = total + result;
             }
-            System.out.println(Arrays.toString(operations));
+
+            System.out.println("Part 1 Total: " + total);
+            // Should be: 
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
