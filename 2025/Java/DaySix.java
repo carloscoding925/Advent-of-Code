@@ -66,6 +66,11 @@ public class DaySix {
             }
 
             String operationString = lines.getLast();
+            int maxLength = operationString.length();
+            long total = 0;
+
+            System.out.println("Part 2 Total: " + total);
+            // Should be: 
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
