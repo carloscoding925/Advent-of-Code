@@ -60,17 +60,91 @@ public class DaySix {
             List<String> lines = Files.readAllLines(Paths.get("../Inputs/DaySix.txt"));
             int inputLength = lines.size();
 
-            List<String> nums = new ArrayList<>();
+            List<String> rows = new ArrayList<>();
             for (int i = 0; i < inputLength - 1; i++) {
-                nums.add(lines.get(i));
+                rows.add(lines.get(i));
             }
 
-            String operationString = lines.getLast();
-            int maxLength = operationString.length();
+            String operationRow = lines.getLast();
+            int maxLength = operationRow.length();
             long total = 0;
 
+            List<Long> currentNumbers = new ArrayList<>();
+            char currentOperation = ' ';
+
+            for (int col = maxLength - 1; col >= 0; col--) {
+                boolean process = true;
+
+                for (String row : rows) {
+                    if (col < row.length() && !Character.isWhitespace(row.charAt(col))) {
+                        process = false;
+                        break;
+                    }
+                }
+
+                if (col < operationRow.length() && !Character.isWhitespace(operationRow.charAt(col))) {
+                    process = false;
+                }
+
+                if (process) {
+                    if (!currentNumbers.isEmpty() && currentOperation != ' ') {
+                        long result = currentNumbers.get(0);
+
+                        for (int i = 1; i < currentNumbers.size(); i++) {
+                            if (currentOperation == '*') {
+                                result = result * currentNumbers.get(i);
+                            }
+                            else {
+                                result = result + currentNumbers.get(i);
+                            }
+                        }
+
+                        total = total + result;
+                        currentNumbers.clear();
+                        currentOperation = ' ';
+                    }
+                }
+                else {
+                    char opChar = operationRow.charAt(col);
+
+                    if (opChar == '*' || opChar == '+') {
+                        currentOperation = opChar;
+                    }
+
+                    StringBuilder builder = new StringBuilder();
+                    for (String row : rows) {
+                        if (col < row.length()) {
+                            char digit = row.charAt(col);
+
+                            if (!Character.isWhitespace(digit)) {
+                                builder.append(digit);
+                            }
+                        }
+                    }
+
+                    if (builder.length() > 0) {
+                        currentNumbers.add(Long.parseLong(builder.toString()));
+                    }
+                }
+            }
+
+            if (!currentNumbers.isEmpty() && currentOperation != ' ') {
+                long result = currentNumbers.get(0);
+
+                for (int i = 1; i < currentNumbers.size(); i++) {
+                    if (currentOperation == '*') {
+                        result = result * currentNumbers.get(i);
+                    }
+                    else {
+                        result = result + currentNumbers.get(i);
+                    }
+                }
+
+                total = total + result;
+            }
+
             System.out.println("Part 2 Total: " + total);
-            // Should be: 
+            // Should be: 11744693538946
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
