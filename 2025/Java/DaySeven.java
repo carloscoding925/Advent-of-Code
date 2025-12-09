@@ -44,7 +44,7 @@ public class DaySeven {
             }
 
             System.out.println("Part 1 Count: " + count);
-            // Should be: 
+            // Should be: 1550
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
