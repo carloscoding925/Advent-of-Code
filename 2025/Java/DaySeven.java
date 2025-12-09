@@ -37,6 +37,7 @@ public class DaySeven {
                             beamArray[j + 1] = 'X';
                         }
 
+                        beamArray[j] = '.';
                         count++;
                     }
                 }
