@@ -26,15 +26,18 @@ public class DaySeven {
                 for (int j = 0; j < diagram[0].length; j++) {
                     if (diagram[i][j] == 'S') {
                         beamArray[j] = 'X';
-                        count++;
                     }
 
                     if (diagram[i][j] == '^' && beamArray[j] == 'X') {
-                        if (j >= 1 && j < beamArray.length - 1) {
+                        if (j - 1 >= 0) {
                             beamArray[j - 1] = 'X';
-                            beamArray[j + 1] = 'X';
-                            count++;
                         }
+
+                        if (j + 1 < beamArray.length) {
+                            beamArray[j + 1] = 'X';
+                        }
+
+                        count++;
                     }
                 }
             }
