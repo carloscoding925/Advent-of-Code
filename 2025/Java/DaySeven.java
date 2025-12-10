@@ -59,6 +59,7 @@ public class DaySeven {
                 diagram[i] = lines.get(i).toCharArray();
             }
 
+            // Find starting position ('S' Character)
             int startingPos = -1;
             for (int j = 0; j < diagram[0].length; j++) {
                 if (diagram[0][j] == 'S') {
@@ -67,30 +68,44 @@ public class DaySeven {
                 }
             }
 
-            int count = countPathsDFS(diagram, 0, startingPos);
-            System.out.println("Part 2 Count: " + count);
-            // Should be: 
+            // Only one way for the beam to split at first (initial state)
+            long[] paths = new long[diagram[0].length];
+            paths[startingPos] = 1;
+
+            // Double for loop - first one creates a new paths array at every row
+            // second one calculates new paths when we run into a '^' character AND a previous path exists
+            for (int row = 0; row < diagram.length; row++) {
+                long nextPaths[] = new long[diagram[0].length];
+
+                for (int col = 0; col < diagram[0].length; col++) {
+                    if (paths[col] > 0) {
+                        if (diagram[row][col] == '^') {
+                            if (col - 1 >= 0) {
+                                nextPaths[col - 1] = nextPaths[col - 1] + paths[col];
+                            }
+                            
+                            if (col + 1 < diagram[0].length) {
+                                nextPaths[col + 1] = nextPaths[col + 1] + paths[col];
+                            }
+                        }
+                        else {
+                            nextPaths[col] = nextPaths[col] + paths[col];
+                        }
+                    }
+                }
+
+                paths = nextPaths;
+            }
+
+            long totalPaths = 0;
+            for (long count : paths) {
+                totalPaths = totalPaths + count;
+            }
+
+            System.out.println("Part 2 Count: " + totalPaths);
+            // Should be: 9897897326778
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
-        }
-    }
-
-    private static int countPathsDFS(char[][] diagram, int row, int col) {
-        if (row >= diagram.length) {
-            return 1;
-        }
-
-        if (col < 0 || col >= diagram[0].length) {
-            return 0;
-        }
-
-        if (diagram[row][col] == '^') {
-            int left = countPathsDFS(diagram, row + 1, col - 1);
-            int right = countPathsDFS(diagram, row + 1, col + 1);
-            return left + right;
-        }
-        else {
-            return countPathsDFS(diagram, row + 1, col);
         }
     }
 }
