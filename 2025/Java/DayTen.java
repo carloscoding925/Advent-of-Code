@@ -63,7 +63,7 @@ public class DayTen {
             }
 
             System.out.println("Part 1 Total: " + total);
-            // Should be: 
+            // Should be: 509
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
