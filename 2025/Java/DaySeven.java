@@ -51,6 +51,20 @@ public class DaySeven {
     }
 
     private static void solvePartTwo() {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get("../Inputs/DaySeven.txt"));
 
+            char[][] diagram = new char[lines.size()][];
+            for (int i = 0; i < lines.size(); i++) {
+                diagram[i] = lines.get(i).toCharArray();
+            }
+
+            int count = 0;
+
+            System.out.println("Part 2 Count: " + count);
+            // Should be: 
+        } catch (Exception ex) {
+            System.out.println("Caught Exception: " + ex);
+        }
     }
 }
