@@ -59,12 +59,38 @@ public class DaySeven {
                 diagram[i] = lines.get(i).toCharArray();
             }
 
-            int count = 0;
+            int startingPos = -1;
+            for (int j = 0; j < diagram[0].length; j++) {
+                if (diagram[0][j] == 'S') {
+                    startingPos = j;
+                    break;
+                }
+            }
 
+            int count = countPathsDFS(diagram, 0, startingPos);
             System.out.println("Part 2 Count: " + count);
             // Should be: 
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
+        }
+    }
+
+    private static int countPathsDFS(char[][] diagram, int row, int col) {
+        if (row >= diagram.length) {
+            return 1;
+        }
+
+        if (col < 0 || col >= diagram[0].length) {
+            return 0;
+        }
+
+        if (diagram[row][col] == '^') {
+            int left = countPathsDFS(diagram, row + 1, col - 1);
+            int right = countPathsDFS(diagram, row + 1, col + 1);
+            return left + right;
+        }
+        else {
+            return countPathsDFS(diagram, row + 1, col);
         }
     }
 }
