@@ -30,16 +30,38 @@ public class DayEleven {
             }
 
             Set<String> visited = new HashSet<>();
-            int count = 0;
+            int count = graphDfs("you", graph, visited);
 
             System.out.println("Part one count: " + count);
+            // Should be: 477
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
     }
 
     private static int graphDfs(String curr, Map<String, List<String>> graph, Set<String> visited) {
-        return 0;
+        if (curr.equals("out")) {
+            return 1;
+        }
+
+        if (visited.contains(curr)) {
+            return 0;
+        }
+
+        if (!graph.containsKey(curr)) {
+            return 0;
+        }
+
+        visited.add(curr);
+
+        int total = 0;
+        for (String neighbor : graph.get(curr)) {
+            total = total + graphDfs(neighbor, graph, visited);
+        }
+
+        visited.remove(curr);
+
+        return total;
     }
 
     private static void solvePartTwo() {
