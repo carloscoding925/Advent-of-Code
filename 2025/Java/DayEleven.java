@@ -78,59 +78,47 @@ public class DayEleven {
                 graph.put(machine, Arrays.asList(outputs));
             }
 
-            Set<String> visited = new HashSet<>();
-            Set<String> requiredVisited = new HashSet<>();
-            Set<String> requiredNodes = new HashSet<>(Arrays.asList("fft", "dac"));
-
-            int count = graphDfsWithRequiredNodesVisited("svr", graph, visited, requiredVisited, requiredNodes);
+            Map<String, Long> memo = new HashMap<>();
+            long count = graphWithMemo("svr", graph, false, false, memo);
 
             System.out.println("Part two count: " + count);
-            // Should be: 
+            // Should be: 383307150903216
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
     }
 
-    // Writing comments on this one because DFS is hard lol
-    private static int graphDfsWithRequiredNodesVisited(
-        String curr, Map<String, List<String>> graph, Set<String> visited, Set<String> requiredVisited, Set<String> requiredNodes
+    private static long graphWithMemo(
+        String curr, Map<String, List<String>> graph, boolean visitedFFT, boolean visitedDAC, Map<String, Long> memo
     ) {
-        // Modification from original - only return 1 if we've found 'fft' and 'dac'
+        String state = curr + "," + visitedFFT + "," + visitedDAC;
+
+        if (memo.containsKey(state)) {
+            return memo.get(state);
+        }
+
+        if (curr.equals("fft")) {
+            visitedFFT = true;
+        }
+
+        if (curr.equals("dac")) {
+            visitedDAC = true;
+        }
+
         if (curr.equals("out")) {
-            return requiredVisited.containsAll(requiredNodes) ? 1 : 0;
+            return (visitedFFT && visitedDAC) ? 1 : 0;
         }
 
-        // Cycle detection check
-        if (visited.contains(curr)) {
-            return 0;
-        }
-
-        // Dead end check
         if (!graph.containsKey(curr)) {
             return 0;
         }
 
-        // Mark current node as visited
-        visited.add(curr);
-
-        // If we come across a required node we havent added yet, add it to the visited set
-        boolean foundRequired = false;
-        if (requiredNodes.contains(curr) && !requiredVisited.contains(curr)) {
-            requiredVisited.add(curr);
-            foundRequired = true;
-        }
-
-        // Explore neighbors and keep track of total
-        int total = 0;
+        long total = 0;
         for (String neighbor : graph.get(curr)) {
-            total = total + graphDfsWithRequiredNodesVisited(neighbor, graph, visited, requiredVisited, requiredNodes);
+            total = total + graphWithMemo(neighbor, graph, visitedFFT, visitedDAC, memo);
         }
 
-        // Backtracking to let other paths visit this node
-        visited.remove(curr);
-        if (foundRequired) {
-            requiredVisited.remove(curr);
-        }
+        memo.put(state, total);
 
         return total;
     }
