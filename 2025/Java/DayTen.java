@@ -133,6 +133,10 @@ public class DayTen {
     }
 
     private static void solvePartTwo() {
+        try {
 
+        } catch (Exception ex) {
+            System.out.println("Caught Exception: " + ex);
+        }
     }
 }
