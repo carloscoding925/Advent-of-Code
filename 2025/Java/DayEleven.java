@@ -65,6 +65,33 @@ public class DayEleven {
     }
 
     private static void solvePartTwo() {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get("../Inputs/DayEleven.txt"));
 
+            Map<String, List<String>> graph = new HashMap<>();
+
+            for (String line : lines) {
+                String[] parts = line.split(": ");
+                String machine = parts[0];
+                String[] outputs = parts[1].split(" ");
+
+                graph.put(machine, Arrays.asList(outputs));
+            }
+
+            Set<String> visited = new HashSet<>();
+            Set<String> requiredVisited = new HashSet<>();
+            Set<String> requiredNodes = new HashSet<>(Arrays.asList("fft", "dac"));
+
+            int count = 0;
+
+            System.out.println("Part two count: " + count);
+            // Should be: 
+        } catch (Exception ex) {
+            System.out.println("Caught Exception: " + ex);
+        }
+    }
+
+    private static int graphDfsWithRequiredNodesVisited() {
+        return 0;
     }
 }
