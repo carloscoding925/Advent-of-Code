@@ -82,7 +82,7 @@ public class DayEleven {
             Set<String> requiredVisited = new HashSet<>();
             Set<String> requiredNodes = new HashSet<>(Arrays.asList("fft", "dac"));
 
-            int count = 0;
+            int count = graphDfsWithRequiredNodesVisited("svr", graph, visited, requiredVisited, requiredNodes);
 
             System.out.println("Part two count: " + count);
             // Should be: 
@@ -91,7 +91,47 @@ public class DayEleven {
         }
     }
 
-    private static int graphDfsWithRequiredNodesVisited() {
-        return 0;
+    // Writing comments on this one because DFS is hard lol
+    private static int graphDfsWithRequiredNodesVisited(
+        String curr, Map<String, List<String>> graph, Set<String> visited, Set<String> requiredVisited, Set<String> requiredNodes
+    ) {
+        // Modification from original - only return 1 if we've found 'fft' and 'dac'
+        if (curr.equals("out")) {
+            return requiredVisited.containsAll(requiredNodes) ? 1 : 0;
+        }
+
+        // Cycle detection check
+        if (visited.contains(curr)) {
+            return 0;
+        }
+
+        // Dead end check
+        if (!graph.containsKey(curr)) {
+            return 0;
+        }
+
+        // Mark current node as visited
+        visited.add(curr);
+
+        // If we come across a required node we havent added yet, add it to the visited set
+        boolean foundRequired = false;
+        if (requiredNodes.contains(curr) && !requiredVisited.contains(curr)) {
+            requiredVisited.add(curr);
+            foundRequired = true;
+        }
+
+        // Explore neighbors and keep track of total
+        int total = 0;
+        for (String neighbor : graph.get(curr)) {
+            total = total + graphDfsWithRequiredNodesVisited(neighbor, graph, visited, requiredVisited, requiredNodes);
+        }
+
+        // Backtracking to let other paths visit this node
+        visited.remove(curr);
+        if (foundRequired) {
+            requiredVisited.remove(curr);
+        }
+
+        return total;
     }
 }
