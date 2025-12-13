@@ -7,7 +7,11 @@ public class DayEight {
     }
 
     private static void solvePartOne() {
+        try {
 
+        } catch (Exception ex) {
+            System.out.println("Caught Exception: " + ex);
+        }
     }
 
     private static void solvePartTwo() {
