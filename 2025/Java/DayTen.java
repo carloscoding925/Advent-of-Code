@@ -181,7 +181,7 @@ public class DayTen {
             }
 
             System.out.println("Part 2 Total: " + total);
-            // Should be: 20862
+            // Should be: 20083
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
@@ -380,7 +380,7 @@ public class DayTen {
 
         // Try different values for this free variable
         int min = currentMin;
-        
+
         for (int value = 0; value <= maxValue; value++) {
             freeVarValues[index] = value;
             min = Math.min(min, tryFreeVarCombinations(matrix, pivotCols, freeVars, freeVarValues, index + 1, numButtons, numRows, maxValue, min));
