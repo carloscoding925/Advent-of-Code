@@ -176,94 +176,108 @@ public class DayTen {
                 int[] target = targetJoltages.get(n);
                 List<int[]> buttons = buttonsPerLine.get(n);
 
-                int minPresses = findMinPressesNumeric(target, buttons);
+                int minPresses = solveLinearEquation(target, buttons);
                 total = total + minPresses;
             }
 
             System.out.println("Part 2 Total: " + total);
-            // Should be: 
+            // Should be: 20862
         } catch (Exception ex) {
             System.out.println("Caught Exception: " + ex);
         }
     }
 
-    private static int findMinPressesNumeric(int[] target, List<int[]> buttons) {
-        int[] start = new int[target.length];
+    /*
+        Part 2 uses MATH to figure out the answer -
+        Linear Algebra approach asks us to solve a matrix 
 
-        if (areEqualInts(start, target)) {
-            return 0;
+        Consider (2,3,4) (1,2,4) (0,1,3) (0) (2,3) {16,26,13,28,24}
+        Solve 5 buttons & 5 variables so we can solve the following matrix:
+
+        Index 0:          b2 + b3       = 16
+        Index 1:      b1 + b2           = 26
+        Index 2: b0 + b1      + b4      = 13
+        Index 3: b0      + b2      + b4 = 28
+        Index 4: b0 + b1                = 24
+
+        Using Gaussian Elimination
+        [0]   0   0   1   1   0  |  16
+        [1]   0   1   1   0   0  |  26
+        [2]   1   1   0   0   1  |  13
+        [3]   0  -1   1   0   0  |  15  (row3 - row2)
+        [4]   0   0   0   0  -1  |  11  (row4 - row2)
+    */
+
+    
+    private static final double ep = 1e-10;
+
+    private static int solveLinearEquation(int[] target, List<int[]> buttons) {
+        int numIndices = target.length;
+        int numButtons = buttons.size();
+
+        double[][] matrix = new double[numIndices][numButtons + 1];
+
+        // Build our coefficient matrix
+        for (int buttonIndex = 0; buttonIndex < numButtons; buttonIndex++) {
+            int[] button = buttons.get(buttonIndex);
+            for (int affectedIndex : button) {
+                matrix[affectedIndex][buttonIndex] = 1;
+            }
         }
 
-        Queue<int[]> queue = new LinkedList<>();
-        Map<String, Integer> visited = new HashMap<>();
+        // Add target values (the stuff inside the {})
+        for (int i = 0; i < numIndices; i++) {
+            matrix[i][numButtons] = target[i];
+        }
 
-        queue.offer(start);
-        visited.put(intAsString(start), 0);
+        for (int col = 0; col < Math.min(numIndices, numButtons); col++) {
+            int maxRow = col;
 
-        while (!queue.isEmpty()) {
-            int[] current = queue.poll();
-            int presses = visited.get(intAsString(current));
-
-            for (int[] button : buttons) {
-                int[] next = current.clone();
-
-                for (int index : button) {
-                    next[index]++;
+            // Search for our pivot index in the matrix
+            for (int row = col + 1; row < numIndices; row++) {
+                if (Math.abs(matrix[row][col]) > Math.abs(matrix[maxRow][col])) {
+                    maxRow = row;
                 }
+            }
 
-                if (exceedsJoltage(next, target)) {
-                    continue;
-                }
+            // Perform row swaps with the row with the largest pivot
+            double[] temp = matrix[col];
+            matrix[col] = matrix[maxRow];
+            matrix[maxRow] = temp;
 
-                if (areEqualInts(next, target)) {
-                    return presses + 1;
-                }
+            if (Math.abs(matrix[col][col]) < ep) {
+                continue;
+            }
 
-                String nextString = intAsString(next);
-                if (!visited.containsKey(nextString)) {
-                    visited.put(nextString, presses + 1);
-                    queue.offer(next);
+            // Form our upper triangular matrix
+            for (int row = col + 1; row < numIndices; row++) {
+                double factor = matrix[row][col] / matrix[col][col];
+                
+                for (int j = col; j <= numButtons; j++) {
+                    matrix[row][j] = matrix[row][j] - factor * matrix[col][j];
                 }
             }
         }
 
-        return -1;
-    }
+        // Solve for each matrix variable backwards
+        double[] solution = new double[numButtons];
+        for (int i = Math.min(numIndices, numButtons) - 1; i >= 0; i--) {
+            double sum = matrix[i][numButtons];
 
-    private static String intAsString(int[] array) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < array.length; i++) {
-            if (i > 0) {
-                builder.append(",");
+            for (int j = i + 1; j < numButtons; j++) {
+                sum = sum - matrix[i][j] * solution[j];
             }
 
-            builder.append(array[i]);
-        }
-
-        return builder.toString();
-    }
-
-    private static boolean areEqualInts(int[] a, int[] b) {
-        if (a.length != b.length) {
-            return false;
-        }
-
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] != b[i]) {
-                return false;
+            if (Math.abs(matrix[i][i]) > ep) {
+                solution[i] = sum / matrix[i][i];
             }
         }
 
-        return true;
-    }
-
-    private static boolean exceedsJoltage(int[] current, int[] target) {
-        for (int i = 0; i < current.length; i++) {
-            if (current[i] > target[i]) {
-                return true;
-            }
+        int totalPresses = 0;
+        for (double presses : solution) {
+            totalPresses = totalPresses + (int) Math.round(presses);
         }
 
-        return false;
+        return totalPresses;
     }
 }
