@@ -93,12 +93,12 @@ public class DayEight {
         return parent[x];
     }
 
-    private static void union(int[] parent, int[] size, int x, int y) {
+    private static boolean union(int[] parent, int[] size, int x, int y) {
         int rootX = find(parent, x);
         int rootY = find(parent, y);
 
         if (rootX == rootY) {
-            return;
+            return false;
         }
 
         if (size[rootX] < size[rootY]) {
@@ -110,10 +110,75 @@ public class DayEight {
             size[rootX] = size[rootX] + size[rootY];
         }
 
-        return;
+        return true;
     }
 
     private static void solvePartTwo() {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get("../Inputs/DayEight.txt"));
 
+            List<int[]> coordinates = new ArrayList<>();
+            for (String line : lines) {
+                String[] parts = line.split(",");
+                
+                int[] coord = new int[parts.length];
+                for (int i = 0; i < coord.length; i++) {
+                    coord[i] = Integer.parseInt(parts[i]);
+                }
+
+                coordinates.add(coord);
+            }
+
+            List<double[]> edges = new ArrayList<>();
+            for (int i = 0; i < coordinates.size(); i++) {
+                for (int j = i + 1; j < coordinates.size(); j++) {
+                    double distance = distance(coordinates.get(i), coordinates.get(j));
+
+                    double[] edge = new double[3];
+                    edge[0] = i;
+                    edge[1] = j;
+                    edge[2] = distance;
+
+                    edges.add(edge);
+                }
+            }
+
+            Collections.sort(edges, (a, b) -> Double.compare(a[2], b[2]));
+
+            int[] parent = new int[coordinates.size()];
+            int[] size = new int[coordinates.size()];
+            for (int i = 0; i < coordinates.size(); i++) {
+                parent[i] = i;
+                size[i] = 1;
+            }
+
+            int components = coordinates.size();
+            int lastFrom = -1;
+            int lastTo = -1;
+
+            for (double[] edge : edges) {
+                int from = (int) edge[0];
+                int to = (int) edge[1];
+
+                if (union(parent, size, from, to)) {
+                    components--;
+                    lastFrom = from;
+                    lastTo = to;
+
+                    if (components == 1) {
+                        break;
+                    }
+                }
+            }
+
+            int x1 = coordinates.get(lastFrom)[0];
+            int x2 = coordinates.get(lastTo)[0];
+            long result = (long) x1 * x2;
+
+            System.out.println("Part 2 Result: " + result);
+            // Should be: 31182420
+        } catch (Exception ex) {
+            System.out.println("Caught Exception: " + ex);
+        }
     }
 }
